@@ -6,6 +6,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,3 +40,10 @@ jobs:
         with:
           name: ludo-king-apk
           path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Ludo King build ${{ github.run_number }}
+          files: android/app/build/outputs/apk/release/app-release.apk
